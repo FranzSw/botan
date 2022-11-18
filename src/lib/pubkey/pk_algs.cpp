@@ -72,6 +72,10 @@
   #include <botan/sm2.h>
 #endif
 
+#if defined(BOTAN_HAS_KYBER)
+  #include <botan/kyber.h>
+#endif
+
 namespace Botan {
 
 std::unique_ptr<Public_Key>
@@ -152,6 +156,11 @@ load_public_key(const AlgorithmIdentifier& alg_id,
       return std::make_unique<XMSS_PublicKey>(key_bits);
 #endif
 
+#if defined(BOTAN_HAS_KYBER)
+   if(alg_name == "Kyber-512-r3" || alg_name == "Kyber-768-r3" || alg_name == "Kyber-1024-r3")
+      return std::make_unique<Kyber_PublicKey>(key_bits, KyberMode(alg_name), KyberKeyEncoding::Full);
+#endif
+
    throw Decoding_Error("Unknown or unavailable public key algorithm " + alg_name);
    }
 
@@ -229,6 +238,11 @@ load_private_key(const AlgorithmIdentifier& alg_id,
 #if defined(BOTAN_HAS_XMSS_RFC8391)
    if(alg_name == "XMSS")
       return std::make_unique<XMSS_PrivateKey>(key_bits);
+#endif
+
+#if defined(BOTAN_HAS_KYBER)
+   if(alg_name == "Kyber-512-r3" || alg_name == "Kyber-768-r3" || alg_name == "Kyber-1024-r3")
+      return std::make_unique<Kyber_PrivateKey>(key_bits, KyberMode(alg_name), KyberKeyEncoding::Full);
 #endif
 
    throw Decoding_Error("Unknown or unavailable public key algorithm " + alg_name);

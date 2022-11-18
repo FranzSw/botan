@@ -42,6 +42,7 @@ class BOTAN_PUBLIC_API(3, 0) KyberMode
 
       KyberMode(Mode mode);
       KyberMode(const OID& oid);
+      KyberMode(const std::string& mode_string);
 
       OID get_oid() const;
       std::string to_string() const;

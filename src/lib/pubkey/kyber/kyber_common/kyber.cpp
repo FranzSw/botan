@@ -73,6 +73,9 @@ KyberMode::KyberMode(Mode mode)
 KyberMode::KyberMode(const OID& oid)
    : m_mode(mode_from_string(oid.to_string())) {}
 
+KyberMode::KyberMode(const std::string& mode_string)
+   : m_mode(mode_from_string(mode_string)) {}
+
 OID KyberMode::get_oid() const
    {
    return OID::from_string(to_string());
